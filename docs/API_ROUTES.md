@@ -1,6 +1,19 @@
-# API Routes Documentation
+# 🚀 API Routes Documentation
 
-## Estrutura de Rotas
+## 📋 Índice
+
+- [Estrutura de Rotas](#estrutura-de-rotas)
+- [Autenticação](#autenticação)
+- [Usuário](#usuário)
+- [Admin](#admin)
+- [Middleware](#middleware)
+- [Códigos de Status](#códigos-de-status)
+- [Exemplos de Uso](#exemplos-de-uso)
+- [Tratamento de Erros](#tratamento-de-erros)
+
+---
+
+## 🏗️ Estrutura de Rotas
 
 A API está organizada em diferentes arquivos para melhor manutenção:
 
@@ -11,43 +24,664 @@ A API está organizada em diferentes arquivos para melhor manutenção:
 - **`routes/user.php`** - Rotas para usuários autenticados
 - **`routes/admin.php`** - Rotas administrativas
 
+### 🔗 Base URL
+
+```
+Base URL: http://localhost:8000/api
+```
+
 ---
 
 ## 🔐 Autenticação (`/api/auth`)
 
-### Rotas Públicas
-- `POST /api/auth/login` - Login do usuário
-- `POST /api/auth/register` - Registro de novo usuário
-- `POST /api/auth/forgot-password` - Solicitar reset de senha
-- `POST /api/auth/reset-password` - Resetar senha
-- `POST /api/auth/verify-email` - Verificar email
-- `POST /api/auth/resend-verification` - Reenviar email de verificação
+### 🔓 Rotas Públicas
 
-### Rotas Protegidas
-- `POST /api/auth/logout` - Logout do usuário
-- `GET /api/auth/me` - Dados do usuário autenticado
-- `POST /api/auth/refresh` - Renovar token
+#### Login
+```http
+POST /api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@example.com",
+  "password": "password"
+}
+```
+
+**Resposta (200):**
+```json
+{
+  "success": true,
+  "access_token": "1|xxx",
+  "token_type": "Bearer",
+  "expires_in": 3600,
+  "user": {
+    "id": 1,
+    "name": "Admin User",
+    "email": "admin@example.com",
+    "role": "admin",
+    "department": "IT",
+    "is_active": true
+  }
+}
+```
+
+#### Registro
+```http
+POST /api/auth/register
+Content-Type: application/json
+
+{
+  "name": "João Silva",
+  "email": "joao@empresa.com",
+  "password": "password123",
+  "password_confirmation": "password123",
+  "department": "IT"
+}
+```
+
+#### Recuperar Senha
+```http
+POST /api/auth/forgot-password
+Content-Type: application/json
+
+{
+  "email": "usuario@empresa.com"
+}
+```
+
+#### Resetar Senha
+```http
+POST /api/auth/reset-password
+Content-Type: application/json
+
+{
+  "token": "reset_token_here",
+  "email": "usuario@empresa.com",
+  "password": "nova_senha",
+  "password_confirmation": "nova_senha"
+}
+```
+
+### 🔒 Rotas Protegidas
+
+#### Logout
+```http
+POST /api/auth/logout
+Authorization: Bearer {token}
+```
+
+#### Dados do Usuário
+```http
+GET /api/auth/me
+Authorization: Bearer {token}
+```
 
 ---
 
-## 👤 Usuário (`/api`)
+## 👤 Usuário (`/api/user`)
 
-### Perfil do Usuário
-- `GET /api/profile` - Dados do perfil
-- `PUT /api/profile` - Atualizar perfil
-- `POST /api/profile/change-password` - Alterar senha
+### 📱 Perfil do Usuário
 
-### Pedidos de Viagem do Usuário
-- `GET /api/travel-requests` - Listar meus pedidos
-- `GET /api/travel-requests/{id}` - Detalhes do pedido
-- `POST /api/travel-requests` - Criar novo pedido
-- `PUT /api/travel-requests/{id}` - Atualizar pedido
-- `PATCH /api/travel-requests/{id}/cancel` - Cancelar pedido
-- `GET /api/travel-requests/{id}/history` - Histórico do pedido
+#### Obter Perfil
+```http
+GET /api/user/profile
+Authorization: Bearer {token}
+```
 
-### Rotas de Manager
-- `GET /api/manager/travel-requests/pending` - Pedidos pendentes
-- `PATCH /api/manager/travel-requests/{id}/approve` - Aprovar pedido
+**Resposta (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "name": "João Silva",
+    "email": "joao@empresa.com",
+    "role": "employee",
+    "department": "IT",
+    "position": "Developer",
+    "phone": "(11) 99999-9999",
+    "is_active": true,
+    "created_at": "2025-01-01T00:00:00Z"
+  }
+}
+```
+
+#### Atualizar Perfil
+```http
+PUT /api/user/profile
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+  "name": "João Silva Santos",
+  "phone": "(11) 98888-8888",
+  "position": "Senior Developer"
+}
+```
+
+#### Alterar Senha
+```http
+POST /api/user/profile/change-password
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+  "current_password": "senha_atual",
+  "new_password": "nova_senha",
+  "new_password_confirmation": "nova_senha"
+}
+```
+
+### ✈️ Solicitações de Viagem
+
+#### Listar Minhas Solicitações
+```http
+GET /api/user/travel-requests
+Authorization: Bearer {token}
+
+# Parâmetros opcionais:
+# ?status=requested
+# ?page=1
+# ?per_page=10
+```
+
+#### Criar Solicitação
+```http
+POST /api/user/travel-requests
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+  "requestor_name": "Leonardo",
+  "departure_date": "16-07-2025",
+  "return_date": "20-07-2025",
+  "justification": "Viagem a trabalho",
+  "destination": "Salvador - BA",
+  "purpose": "Venda de Software e Consultoria"
+}
+```
+
+**Resposta (201):**
+```json
+{
+  "success": true,
+  "message": "Solicitação de viagem criada com sucesso.",
+  "data": {
+    "id": 1,
+    "requestor_name": "Leonardo",
+    "destination": "Salvador - BA",
+    "departure_date": "2025-07-16",
+    "return_date": "2025-07-20",
+    "status": "requested",
+    "purpose": "Venda de Software e Consultoria",
+    "justification": "Viagem a trabalho",
+    "created_at": "2025-01-01T00:00:00Z"
+  }
+}
+```
+
+#### Visualizar Solicitação
+```http
+GET /api/user/travel-requests/{id}
+Authorization: Bearer {token}
+```
+
+#### Atualizar Solicitação
+```http
+PUT /api/user/travel-requests/{id}
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+  "destination": "Rio de Janeiro - RJ",
+  "purpose": "Treinamento atualizado"
+}
+```
+
+#### Cancelar Solicitação
+```http
+PATCH /api/user/travel-requests/{id}/cancel
+Authorization: Bearer {token}
+```
+
+---
+
+## 🔧 Admin (`/api/admin`)
+
+### 📊 Dashboard
+
+#### Estatísticas Gerais
+```http
+GET /api/admin/dashboard
+Authorization: Bearer {token}
+```
+
+**Resposta (200):**
+```json
+{
+  "success": true,
+  "dashboard": {
+    "users": {
+      "total": 150,
+      "active": 140,
+      "inactive": 10,
+      "by_role": {
+        "employee": 120,
+        "manager": 25,
+        "admin": 5
+      }
+    },
+    "travel_requests": {
+      "total": 500,
+      "pending": 25,
+      "approved": 400,
+      "cancelled": 50,
+      "rejected": 25,
+      "by_month": {
+        "1": 45,
+        "2": 38,
+        "3": 52
+      }
+    },
+    "recent_activities": {
+      "recent_requests": [...],
+      "recent_users": [...]
+    }
+  }
+}
+```
+
+#### Health Check
+```http
+GET /api/admin/dashboard/health
+Authorization: Bearer {token}
+```
+
+### 👥 Gerenciamento de Usuários
+
+#### Listar Usuários
+```http
+GET /api/admin/users
+Authorization: Bearer {token}
+
+# Parâmetros opcionais:
+# ?role=employee
+# ?department=IT
+# ?is_active=true
+# ?search=joao
+# ?page=1
+# ?per_page=15
+```
+
+#### Criar Usuário
+```http
+POST /api/admin/users
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+  "name": "Maria Santos",
+  "email": "maria@empresa.com",
+  "password": "password123",
+  "role": "employee",
+  "department": "Sales",
+  "position": "Sales Representative",
+  "phone": "(11) 99999-9999",
+  "is_active": true
+}
+```
+
+#### Visualizar Usuário
+```http
+GET /api/admin/users/{id}
+Authorization: Bearer {token}
+```
+
+#### Atualizar Usuário
+```http
+PUT /api/admin/users/{id}
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+  "name": "Maria Santos Silva",
+  "role": "manager",
+  "department": "Sales"
+}
+```
+
+#### Desativar Usuário
+```http
+PATCH /api/admin/users/{id}/deactivate
+Authorization: Bearer {token}
+```
+
+### 🛫 Gerenciamento de Solicitações de Viagem
+
+#### Listar Todas as Solicitações
+```http
+GET /api/admin/travel-requests
+Authorization: Bearer {token}
+
+# Parâmetros opcionais:
+# ?status=requested
+# ?user_id=1
+# ?destination=São Paulo
+# ?start_date=2025-01-01
+# ?end_date=2025-12-31
+# ?search=leonardo
+# ?page=1
+# ?per_page=20
+```
+
+#### Visualizar Solicitação
+```http
+GET /api/admin/travel-requests/{id}
+Authorization: Bearer {token}
+```
+
+**Resposta (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "user_id": 5,
+    "requestor_name": "Leonardo",
+    "destination": "Salvador - BA",
+    "departure_date": "2025-07-16",
+    "return_date": "2025-07-20",
+    "status": "requested",
+    "purpose": "Venda de Software e Consultoria",
+    "justification": "Viagem a trabalho",
+    "created_at": "2025-01-01T00:00:00Z",
+    "user": {
+      "id": 5,
+      "name": "Leonardo",
+      "email": "leonardo@empresa.com",
+      "department": "Sales"
+    },
+    "status_history": [
+      {
+        "id": 1,
+        "previous_status": null,
+        "new_status": "requested",
+        "notes": "Solicitação de viagem criada",
+        "created_at": "2025-01-01T00:00:00Z",
+        "user": {
+          "name": "Leonardo"
+        }
+      }
+    ]
+  }
+}
+```
+
+#### Aprovar Solicitação
+```http
+PATCH /api/admin/travel-requests/{id}/approve
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+  "comment": "Aprovado pela administração"
+}
+```
+
+#### Rejeitar Solicitação
+```http
+PATCH /api/admin/travel-requests/{id}/reject
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+  "comment": "Orçamento insuficiente para este período"
+}
+```
+
+#### Cancelar Solicitação
+```http
+PATCH /api/admin/travel-requests/{id}/cancel
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+  "comment": "Cancelado devido a mudança de planos"
+}
+```
+
+#### Estatísticas de Solicitações
+```http
+GET /api/admin/travel-requests/statistics
+Authorization: Bearer {token}
+```
+
+#### Exportar Solicitações
+```http
+GET /api/admin/travel-requests/export
+Authorization: Bearer {token}
+
+# Parâmetros opcionais:
+# ?format=csv
+# ?start_date=2025-01-01
+# ?end_date=2025-12-31
+# ?status=approved
+```
+
+### ⚙️ Configurações do Sistema
+
+#### Obter Configurações
+```http
+GET /api/admin/settings
+Authorization: Bearer {token}
+```
+
+**Resposta (200):**
+```json
+{
+  "success": true,
+  "settings": {
+    "app_name": "Onfly Travel Manager",
+    "timezone": "America/Sao_Paulo",
+    "locale": "pt_BR",
+    "environment": "production"
+  }
+}
+```
+
+---
+
+## 🛡️ Middleware de Autenticação
+
+### `auth:sanctum`
+- Verifica se o usuário está autenticado via token
+- Aplicado a todas as rotas protegidas
+- Retorna erro 401 se não autenticado
+
+### `admin`
+- Verifica se o usuário tem role 'admin'
+- Verifica se o usuário está ativo
+- Aplicado às rotas administrativas
+- Retorna erro 403 se não autorizado
+
+### `manager`
+- Verifica se o usuário tem role 'manager' ou 'admin'
+- Verifica se o usuário está ativo
+- Aplicado às rotas de aprovação
+- Retorna erro 403 se não autorizado
+
+---
+
+## 📱 Códigos de Status HTTP
+
+### Sucesso (2xx)
+- **200 OK**: Requisição bem-sucedida
+- **201 Created**: Recurso criado com sucesso
+- **204 No Content**: Operação bem-sucedida sem conteúdo de retorno
+
+### Erro do Cliente (4xx)
+- **400 Bad Request**: Dados inválidos
+- **401 Unauthorized**: Não autenticado
+- **403 Forbidden**: Não autorizado
+- **404 Not Found**: Recurso não encontrado
+- **422 Unprocessable Entity**: Erro de validação
+
+### Erro do Servidor (5xx)
+- **500 Internal Server Error**: Erro interno do servidor
+
+---
+
+## 🔧 Exemplos de Uso
+
+### Fluxo Completo de Solicitação
+
+```javascript
+// 1. Login
+const loginResponse = await fetch('/api/auth/login', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    email: 'leonardo@empresa.com',
+    password: 'password123'
+  })
+});
+
+const { access_token } = await loginResponse.json();
+
+// 2. Criar solicitação
+const createResponse = await fetch('/api/user/travel-requests', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${access_token}`
+  },
+  body: JSON.stringify({
+    requestor_name: "Leonardo",
+    departure_date: "16-07-2025",
+    return_date: "20-07-2025",
+    justification: "Viagem a trabalho",
+    destination: "Salvador - BA",
+    purpose: "Venda de Software e Consultoria"
+  })
+});
+
+const { data: travelRequest } = await createResponse.json();
+
+// 3. Admin aprova (com token de admin)
+const approveResponse = await fetch(`/api/admin/travel-requests/${travelRequest.id}/approve`, {
+  method: 'PATCH',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${adminToken}`
+  },
+  body: JSON.stringify({
+    comment: "Aprovado pela administração"
+  })
+});
+```
+
+### Filtros e Busca
+
+```javascript
+// Buscar solicitações com filtros
+const searchResponse = await fetch('/api/admin/travel-requests?' + new URLSearchParams({
+  status: 'requested',
+  start_date: '2025-01-01',
+  end_date: '2025-12-31',
+  search: 'São Paulo',
+  page: 1,
+  per_page: 20
+}), {
+  headers: { 'Authorization': `Bearer ${token}` }
+});
+```
+
+---
+
+## ⚠️ Tratamento de Erros
+
+### Estrutura de Erro Padrão
+
+```json
+{
+  "success": false,
+  "message": "Mensagem de erro amigável",
+  "errors": {
+    "campo": [
+      "Erro específico do campo"
+    ]
+  },
+  "code": "ERROR_CODE"
+}
+```
+
+### Exemplos de Erros
+
+#### Erro de Validação (422)
+```json
+{
+  "success": false,
+  "message": "Os dados fornecidos são inválidos.",
+  "errors": {
+    "email": ["O campo email é obrigatório."],
+    "password": ["O campo password deve ter pelo menos 8 caracteres."]
+  }
+}
+```
+
+#### Erro de Autorização (403)
+```json
+{
+  "success": false,
+  "message": "Você não tem permissão para acessar este recurso.",
+  "code": "INSUFFICIENT_PERMISSIONS"
+}
+```
+
+#### Erro de Autenticação (401)
+```json
+{
+  "success": false,
+  "message": "Token de autenticação inválido ou expirado.",
+  "code": "INVALID_TOKEN"
+}
+```
+
+---
+
+## 🎯 Vantagens desta Organização
+
+1. **Separação de Responsabilidades**: Cada arquivo tem uma função específica
+2. **Manutenibilidade**: Fácil de encontrar e modificar rotas
+3. **Escalabilidade**: Pode adicionar novos grupos de rotas facilmente
+4. **Segurança**: Middleware organizados por contexto
+5. **Documentação**: Cada arquivo pode ter sua própria documentação
+6. **Testes**: Mais fácil de testar grupos específicos de rotas
+7. **Versionamento**: Facilita criação de versões da API
+
+---
+
+## 🚀 Próximos Passos
+
+### Features Planejadas
+
+- **Notificações**: Sistema de notificações em tempo real
+- **Relatórios**: Geração de relatórios avançados
+- **Integração**: APIs externas para reservas
+- **Mobile**: Aplicativo mobile
+- **Webhooks**: Integração com sistemas externos
+
+### Melhorias Técnicas
+
+- **Rate Limiting**: Implementação de rate limiting
+- **Caching**: Cache de consultas frequentes
+- **Logging**: Sistema de logs avançado
+- **Monitoring**: Métricas e alertas
+- **Documentation**: Swagger/OpenAPI integration
+
+---
+
+**Desenvolvido com ❤️ por Leonardo Ribeiro para Onfly Teams**
 - `PATCH /api/manager/travel-requests/{id}/reject` - Rejeitar pedido
 
 ### Notificações
