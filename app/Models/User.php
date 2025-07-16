@@ -110,4 +110,20 @@ class User extends Authenticatable
     {
         return $this->is_active;
     }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === self::ROLE_ADMIN;
+    }
+
+    public function isManager(): bool
+    {
+        return $this->role === self::ROLE_MANAGER;
+    }
+
+    public function isEmployee(): bool
+    {
+        return $this->role === self::ROLE_EMPLOYEE;
+    }
+
 }

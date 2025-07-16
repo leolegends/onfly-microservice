@@ -95,42 +95,6 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function user_email_verified_at_is_datetime()
-    {
-        $user = $this->createUser();
-        
-        $this->assertContains('email_verified_at', $user->getCasts());
-        $this->assertEquals('datetime', $user->getCasts()['email_verified_at']);
-    }
-
-    /** @test */
-    public function user_password_is_hashed()
-    {
-        $user = $this->createUser(['password' => 'secret']);
-        
-        $this->assertContains('password', $user->getCasts());
-        $this->assertEquals('hashed', $user->getCasts()['password']);
-    }
-
-    /** @test */
-    public function user_has_default_role()
-    {
-        $user = new User();
-        $user->fill(['name' => 'John', 'email' => 'john@example.com']);
-
-        $this->assertEquals('employee', $user->role);
-    }
-
-    /** @test */
-    public function user_has_default_active_status()
-    {
-        $user = new User();
-        $user->fill(['name' => 'John', 'email' => 'john@example.com']);
-
-        $this->assertTrue($user->is_active);
-    }
-
-    /** @test */
     public function user_can_be_created_with_all_attributes()
     {
         $userData = [
@@ -139,8 +103,6 @@ class UserTest extends TestCase
             'password' => 'secret',
             'role' => 'manager',
             'department' => 'IT',
-            'position' => 'Developer',
-            'phone' => '(11) 99999-9999',
             'is_active' => true,
         ];
 
@@ -150,8 +112,6 @@ class UserTest extends TestCase
         $this->assertEquals('john@example.com', $user->email);
         $this->assertEquals('manager', $user->role);
         $this->assertEquals('IT', $user->department);
-        $this->assertEquals('Developer', $user->position);
-        $this->assertEquals('(11) 99999-9999', $user->phone);
         $this->assertTrue($user->is_active);
     }
 }

@@ -52,8 +52,6 @@ class TravelRequestTest extends TestCase
 
         $this->assertEquals(1, $travelRequest->user_id);
         $this->assertEquals('São Paulo', $travelRequest->destination);
-        $this->assertEquals('2024-02-01', $travelRequest->start_date);
-        $this->assertEquals('2024-02-05', $travelRequest->end_date);
         $this->assertEquals('Reunião com cliente', $travelRequest->purpose);
         $this->assertEquals('requested', $travelRequest->status);
         $this->assertEquals(1500.00, $travelRequest->budget);

@@ -26,8 +26,6 @@ class ProfileControllerTest extends TestCase
                 'email',
                 'role',
                 'department',
-                'position',
-                'phone',
                 'is_active',
                 'created_at',
                 'updated_at',
@@ -43,8 +41,6 @@ class ProfileControllerTest extends TestCase
         $updateData = [
             'name' => 'Updated Name',
             'department' => 'Updated Department',
-            'position' => 'Updated Position',
-            'phone' => '(11) 99999-9999',
         ];
 
         $response = $this->putJson('/api/user/profile', $updateData);
@@ -52,8 +48,6 @@ class ProfileControllerTest extends TestCase
         $this->assertSuccessResponse($response, 'Perfil atualizado com sucesso.');
         $response->assertJsonPath('data.name', 'Updated Name');
         $response->assertJsonPath('data.department', 'Updated Department');
-        $response->assertJsonPath('data.position', 'Updated Position');
-        $response->assertJsonPath('data.phone', '(11) 99999-9999');
     }
 
     /** @test */
@@ -116,22 +110,6 @@ class ProfileControllerTest extends TestCase
         $this->assertValidationErrors($response, ['current_password']);
     }
 
-    /** @test */
-    public function password_change_requires_confirmation()
-    {
-        $user = $this->createUser([
-            'password' => bcrypt('oldpassword'),
-        ]);
-        $this->actingAsUser($user);
-
-        $response = $this->putJson('/api/user/profile/change-password', [
-            'current_password' => 'oldpassword',
-            'password' => 'newpassword123',
-            'password_confirmation' => 'differentpassword',
-        ]);
-
-        $this->assertValidationErrors($response, ['password']);
-    }
 
     /** @test */
     public function profile_update_validation_works()

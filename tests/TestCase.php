@@ -18,19 +18,5 @@ abstract class TestCase extends BaseTestCase
         if (config('database.default') !== 'sqlite_testing') {
             config(['database.default' => 'sqlite_testing']);
         }
-
-        // Executar migrações se necessário
-        if (! $this->migrationAlreadyRun()) {
-            $this->artisan('migrate:fresh', ['--seed' => false]);
-        }
-    }
-
-    private function migrationAlreadyRun(): bool
-    {
-        try {
-            return DB::table('migrations')->exists();
-        } catch (\Exception $e) {
-            return false;
-        }
     }
 }

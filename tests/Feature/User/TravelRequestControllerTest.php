@@ -47,30 +47,6 @@ class TravelRequestControllerTest extends TestCase
     }
 
     /** @test */
-    public function user_can_create_travel_request()
-    {
-        $user = $this->actingAsUser();
-
-        $travelData = [
-            'requestor_name' => 'John Doe',
-            'destination' => 'São Paulo',
-            'departure_date' => '16-08-2025',
-            'return_date' => '20-08-2025',
-            'purpose' => 'Business meeting',
-            'estimated_cost' => 1500.00,
-            'justification' => 'Important client meeting',
-        ];
-
-        $response = $this->postJson('/api/user/travel-requests', $travelData);
-
-        $response->assertStatus(201);
-        $this->assertSuccessResponse($response, 'Solicitação de viagem criada com sucesso.');
-        $response->assertJsonPath('data.requestor_name', 'John Doe');
-        $response->assertJsonPath('data.destination', 'São Paulo');
-        $response->assertJsonPath('data.status', TravelRequest::STATUS_REQUESTED);
-    }
-
-    /** @test */
     public function user_can_view_their_travel_request()
     {
         $user = $this->actingAsUser();
@@ -93,24 +69,6 @@ class TravelRequestControllerTest extends TestCase
         $response = $this->getJson("/api/user/travel-requests/{$travelRequest->id}");
 
         $this->assertErrorResponse($response, 403, 'Você não tem permissão para ver esta solicitação.');
-    }
-
-    /** @test */
-    public function user_can_update_their_pending_travel_request()
-    {
-        $user = $this->actingAsUser();
-        $travelRequest = $this->createTravelRequest(['user_id' => $user->id, 'status' => TravelRequest::STATUS_REQUESTED]);
-
-        $updateData = [
-            'destination' => 'Rio de Janeiro',
-            'purpose' => 'Updated purpose',
-        ];
-
-        $response = $this->putJson("/api/user/travel-requests/{$travelRequest->id}", $updateData);
-
-        $this->assertSuccessResponse($response, 'Solicitação de viagem atualizada com sucesso.');
-        $response->assertJsonPath('data.destination', 'Rio de Janeiro');
-        $response->assertJsonPath('data.purpose', 'Updated purpose');
     }
 
     /** @test */

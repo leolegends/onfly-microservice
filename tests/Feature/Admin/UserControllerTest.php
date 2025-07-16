@@ -28,8 +28,6 @@ class UserControllerTest extends TestCase
                     'email',
                     'role',
                     'department',
-                    'position',
-                    'phone',
                     'is_active',
                     'created_at',
                     'updated_at',
@@ -49,8 +47,6 @@ class UserControllerTest extends TestCase
             'password' => 'password123',
             'role' => 'employee',
             'department' => 'IT',
-            'position' => 'Developer',
-            'phone' => '(11) 99999-9999',
         ];
 
         $response = $this->postJson('/api/admin/users', $userData);
@@ -63,8 +59,6 @@ class UserControllerTest extends TestCase
                 'email',
                 'role',
                 'department',
-                'position',
-                'phone',
                 'is_active',
                 'created_at',
                 'updated_at',
@@ -93,8 +87,6 @@ class UserControllerTest extends TestCase
                 'email',
                 'role',
                 'department',
-                'position',
-                'phone',
                 'is_active',
                 'created_at',
                 'updated_at',

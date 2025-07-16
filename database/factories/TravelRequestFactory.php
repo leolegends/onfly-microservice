@@ -20,7 +20,7 @@ class TravelRequestFactory extends Factory
         $endDate = $this->faker->dateTimeBetween($startDate, (clone $startDate)->add(new \DateInterval('P2M')));
         
         return [
-            'user_id' => \App\Models\User::factory(),
+            'user_id' => 1, // Usar ID fixo para evitar loop
             'requestor_name' => $this->faker->name(),
             'destination' => $this->faker->city() . ', ' . $this->faker->country(),
             'departure_date' => $startDate,
