@@ -3,6 +3,8 @@
 namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
 
 class ChangePasswordRequest extends FormRequest
 {
@@ -25,6 +27,25 @@ class ChangePasswordRequest extends FormRequest
             'current_password' => ['required', 'string', 'current_password'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ];
+    }
+
+    /**
+     * Handle a failed validation attempt.
+     *
+     * @param  \Illuminate\Contracts\Validation\Validator  $validator
+     * @return void
+     *
+     * @throws \Illuminate\Http\Exceptions\HttpResponseException
+     */
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(
+            response()->json([
+                'success' => false,
+                'message' => 'Dados de validação inválidos.',
+                'errors' => $validator->errors(),
+            ], 422)
+        );
     }
 
     /**

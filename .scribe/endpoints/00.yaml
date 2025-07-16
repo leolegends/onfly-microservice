@@ -66,7 +66,7 @@ endpoints:
     responses:
       -
         status: 200
-        content: '{"status":"ok","timestamp":"2025-07-16T16:57:47.494314Z","version":"1.0.0"}'
+        content: '{"status":"ok","timestamp":"2025-07-16T17:13:57.136119Z","version":"1.0.0"}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -1197,7 +1197,7 @@ endpoints:
         name: role
         description: ''
         required: true
-        example: employee
+        example: manager
         type: string
         enumValues:
           - employee
@@ -1230,7 +1230,7 @@ endpoints:
       name: vmqeopfuudtdsufvyvddq
       email: kunde.eloisa@example.com
       password: '4[*UyPJ"}6'
-      role: employee
+      role: manager
       department: hdtqtqxbajwbpilpmufin
       is_active: true
     fileParameters: []
@@ -1358,7 +1358,7 @@ endpoints:
         name: role
         description: ''
         required: false
-        example: admin
+        example: employee
         type: string
         enumValues:
           - employee
@@ -1391,7 +1391,7 @@ endpoints:
       name: vmqeopfuudtdsufvyvddq
       email: kunde.eloisa@example.com
       password: '4[*UyPJ"}6'
-      role: admin
+      role: employee
       department: hdtqtqxbajwbpilpmufin
       is_active: true
     fileParameters: []
@@ -1468,7 +1468,7 @@ endpoints:
         name: status
         description: ''
         required: false
-        example: cancelled
+        example: rejected
         type: string
         enumValues:
           - requested
@@ -1502,7 +1502,7 @@ endpoints:
         name: departure_date_from
         description: 'Must be a valid date.'
         required: false
-        example: '2025-07-16T16:57:47'
+        example: '2025-07-16T17:13:57'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1522,7 +1522,7 @@ endpoints:
         name: request_date_from
         description: 'Must be a valid date.'
         required: false
-        example: '2025-07-16T16:57:47'
+        example: '2025-07-16T17:13:57'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1542,7 +1542,7 @@ endpoints:
         name: order_by
         description: ''
         required: false
-        example: created_at
+        example: status
         type: string
         enumValues:
           - created_at
@@ -1556,7 +1556,7 @@ endpoints:
         name: order_direction
         description: ''
         required: false
-        example: desc
+        example: asc
         type: string
         enumValues:
           - asc
@@ -1575,15 +1575,15 @@ endpoints:
         nullable: true
         custom: []
     cleanBodyParameters:
-      status: cancelled
+      status: rejected
       user_id: 17
       destination: mqeopfuudtdsufvyvddqa
-      departure_date_from: '2025-07-16T16:57:47'
+      departure_date_from: '2025-07-16T17:13:57'
       departure_date_to: '2106-08-15'
-      request_date_from: '2025-07-16T16:57:47'
+      request_date_from: '2025-07-16T17:13:57'
       request_date_to: '2106-08-15'
-      order_by: created_at
-      order_direction: desc
+      order_by: status
+      order_direction: asc
       per_page: 13
     fileParameters: []
     responses:
@@ -1768,7 +1768,7 @@ endpoints:
         name: status
         description: ''
         required: true
-        example: cancelled
+        example: rejected
         type: string
         enumValues:
           - approved
@@ -1798,7 +1798,7 @@ endpoints:
         nullable: true
         custom: []
     cleanBodyParameters:
-      status: cancelled
+      status: rejected
       reason: vmqeopfuudtdsufvyvddq
       notes: amniihfqcoynlazghdtqt
     fileParameters: []
@@ -1845,7 +1845,7 @@ endpoints:
         name: status
         description: ''
         required: true
-        example: cancelled
+        example: rejected
         type: string
         enumValues:
           - approved
@@ -1875,7 +1875,7 @@ endpoints:
         nullable: true
         custom: []
     cleanBodyParameters:
-      status: cancelled
+      status: rejected
       reason: vmqeopfuudtdsufvyvddq
       notes: amniihfqcoynlazghdtqt
     fileParameters: []

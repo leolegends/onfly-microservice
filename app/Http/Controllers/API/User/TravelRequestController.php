@@ -22,6 +22,7 @@ class TravelRequestController extends Controller
      */
     public function index(Request $request, ListTravelRequestsAction $action): JsonResponse
     {
+
         try {
             $travelRequests = $action->execute($request);
 
@@ -41,6 +42,7 @@ class TravelRequestController extends Controller
                 'message' => 'Erro ao buscar solicitações: ' . $e->getMessage(),
             ], 500);
         }
+
     }
 
     /**
@@ -49,6 +51,7 @@ class TravelRequestController extends Controller
     public function store(CreateTravelRequestRequest $request, CreateTravelRequestAction $action): JsonResponse
     {
         try {
+            
             $travelRequest = $action->execute($request->validated());
 
             return response()->json([

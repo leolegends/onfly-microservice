@@ -3,6 +3,8 @@
 namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
 
 class UpdateTravelRequestRequest extends FormRequest
 {
@@ -30,6 +32,25 @@ class UpdateTravelRequestRequest extends FormRequest
             'estimated_cost' => ['sometimes', 'nullable', 'numeric', 'min:0', 'max:999999.99'],
             'justification' => ['sometimes', 'required', 'string', 'max:2000'],
         ];
+    }
+
+    /**
+     * Handle a failed validation attempt.
+     *
+     * @param  \Illuminate\Contracts\Validation\Validator  $validator
+     * @return void
+     *
+     * @throws \Illuminate\Http\Exceptions\HttpResponseException
+     */
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(
+            response()->json([
+                'success' => false,
+                'message' => 'Dados de validação inválidos.',
+                'errors' => $validator->errors(),
+            ], 422)
+        );
     }
 
     /**

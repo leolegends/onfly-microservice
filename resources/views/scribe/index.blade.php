@@ -402,7 +402,7 @@ access-control-allow-origin: *
 
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
-    &quot;timestamp&quot;: &quot;2025-07-16T16:57:47.494314Z&quot;,
+    &quot;timestamp&quot;: &quot;2025-07-16T17:13:57.136119Z&quot;,
     &quot;version&quot;: &quot;1.0.0&quot;
 }</code>
  </pre>
@@ -3586,7 +3586,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     \"name\": \"vmqeopfuudtdsufvyvddq\",
     \"email\": \"kunde.eloisa@example.com\",
     \"password\": \"4[*UyPJ\\\"}6\",
-    \"role\": \"employee\",
+    \"role\": \"manager\",
     \"department\": \"hdtqtqxbajwbpilpmufin\",
     \"is_active\": true
 }"
@@ -3607,7 +3607,7 @@ let body = {
     "name": "vmqeopfuudtdsufvyvddq",
     "email": "kunde.eloisa@example.com",
     "password": "4[*UyPJ\"}6",
-    "role": "employee",
+    "role": "manager",
     "department": "hdtqtqxbajwbpilpmufin",
     "is_active": true
 };
@@ -3731,10 +3731,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="role"                data-endpoint="POSTapi-admin-users"
-               value="employee"
+               value="manager"
                data-component="body">
     <br>
-<p>Example: <code>employee</code></p>
+<p>Example: <code>manager</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>employee</code></li> <li><code>manager</code></li> <li><code>admin</code></li></ul>
         </div>
@@ -3929,7 +3929,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     \"name\": \"vmqeopfuudtdsufvyvddq\",
     \"email\": \"kunde.eloisa@example.com\",
     \"password\": \"4[*UyPJ\\\"}6\",
-    \"role\": \"admin\",
+    \"role\": \"employee\",
     \"department\": \"hdtqtqxbajwbpilpmufin\",
     \"is_active\": true
 }"
@@ -3950,7 +3950,7 @@ let body = {
     "name": "vmqeopfuudtdsufvyvddq",
     "email": "kunde.eloisa@example.com",
     "password": "4[*UyPJ\"}6",
-    "role": "admin",
+    "role": "employee",
     "department": "hdtqtqxbajwbpilpmufin",
     "is_active": true
 };
@@ -4090,10 +4090,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="role"                data-endpoint="PUTapi-admin-users--id-"
-               value="admin"
+               value="employee"
                data-component="body">
     <br>
-<p>Example: <code>admin</code></p>
+<p>Example: <code>employee</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>employee</code></li> <li><code>manager</code></li> <li><code>admin</code></li></ul>
         </div>
@@ -4268,15 +4268,15 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"status\": \"cancelled\",
+    \"status\": \"rejected\",
     \"user_id\": 17,
     \"destination\": \"mqeopfuudtdsufvyvddqa\",
-    \"departure_date_from\": \"2025-07-16T16:57:47\",
+    \"departure_date_from\": \"2025-07-16T17:13:57\",
     \"departure_date_to\": \"2106-08-15\",
-    \"request_date_from\": \"2025-07-16T16:57:47\",
+    \"request_date_from\": \"2025-07-16T17:13:57\",
     \"request_date_to\": \"2106-08-15\",
-    \"order_by\": \"created_at\",
-    \"order_direction\": \"desc\",
+    \"order_by\": \"status\",
+    \"order_direction\": \"asc\",
     \"per_page\": 13
 }"
 </code></pre></div>
@@ -4293,15 +4293,15 @@ const headers = {
 };
 
 let body = {
-    "status": "cancelled",
+    "status": "rejected",
     "user_id": 17,
     "destination": "mqeopfuudtdsufvyvddqa",
-    "departure_date_from": "2025-07-16T16:57:47",
+    "departure_date_from": "2025-07-16T17:13:57",
     "departure_date_to": "2106-08-15",
-    "request_date_from": "2025-07-16T16:57:47",
+    "request_date_from": "2025-07-16T17:13:57",
     "request_date_to": "2106-08-15",
-    "order_by": "created_at",
-    "order_direction": "desc",
+    "order_by": "status",
+    "order_direction": "asc",
     "per_page": 13
 };
 
@@ -4408,10 +4408,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="status"                data-endpoint="GETapi-admin-travel-requests"
-               value="cancelled"
+               value="rejected"
                data-component="body">
     <br>
-<p>Example: <code>cancelled</code></p>
+<p>Example: <code>rejected</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>requested</code></li> <li><code>approved</code></li> <li><code>cancelled</code></li> <li><code>rejected</code></li></ul>
         </div>
@@ -4443,10 +4443,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="departure_date_from"                data-endpoint="GETapi-admin-travel-requests"
-               value="2025-07-16T16:57:47"
+               value="2025-07-16T17:13:57"
                data-component="body">
     <br>
-<p>Must be a valid date. Example: <code>2025-07-16T16:57:47</code></p>
+<p>Must be a valid date. Example: <code>2025-07-16T17:13:57</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>departure_date_to</code></b>&nbsp;&nbsp;
@@ -4465,10 +4465,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="request_date_from"                data-endpoint="GETapi-admin-travel-requests"
-               value="2025-07-16T16:57:47"
+               value="2025-07-16T17:13:57"
                data-component="body">
     <br>
-<p>Must be a valid date. Example: <code>2025-07-16T16:57:47</code></p>
+<p>Must be a valid date. Example: <code>2025-07-16T17:13:57</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>request_date_to</code></b>&nbsp;&nbsp;
@@ -4487,10 +4487,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="order_by"                data-endpoint="GETapi-admin-travel-requests"
-               value="created_at"
+               value="status"
                data-component="body">
     <br>
-<p>Example: <code>created_at</code></p>
+<p>Example: <code>status</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>created_at</code></li> <li><code>departure_date</code></li> <li><code>status</code></li> <li><code>destination</code></li></ul>
         </div>
@@ -4500,10 +4500,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="order_direction"                data-endpoint="GETapi-admin-travel-requests"
-               value="desc"
+               value="asc"
                data-component="body">
     <br>
-<p>Example: <code>desc</code></p>
+<p>Example: <code>asc</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>asc</code></li> <li><code>desc</code></li></ul>
         </div>
@@ -4919,7 +4919,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"status\": \"cancelled\",
+    \"status\": \"rejected\",
     \"reason\": \"vmqeopfuudtdsufvyvddq\",
     \"notes\": \"amniihfqcoynlazghdtqt\"
 }"
@@ -4937,7 +4937,7 @@ const headers = {
 };
 
 let body = {
-    "status": "cancelled",
+    "status": "rejected",
     "reason": "vmqeopfuudtdsufvyvddq",
     "notes": "amniihfqcoynlazghdtqt"
 };
@@ -5040,10 +5040,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="status"                data-endpoint="PATCHapi-admin-travel-requests--travelRequest_id--reject"
-               value="cancelled"
+               value="rejected"
                data-component="body">
     <br>
-<p>Example: <code>cancelled</code></p>
+<p>Example: <code>rejected</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>approved</code></li> <li><code>rejected</code></li> <li><code>cancelled</code></li></ul>
         </div>
@@ -5088,7 +5088,7 @@ Must be one of:
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"status\": \"cancelled\",
+    \"status\": \"rejected\",
     \"reason\": \"vmqeopfuudtdsufvyvddq\",
     \"notes\": \"amniihfqcoynlazghdtqt\"
 }"
@@ -5106,7 +5106,7 @@ const headers = {
 };
 
 let body = {
-    "status": "cancelled",
+    "status": "rejected",
     "reason": "vmqeopfuudtdsufvyvddq",
     "notes": "amniihfqcoynlazghdtqt"
 };
@@ -5209,10 +5209,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="status"                data-endpoint="PATCHapi-admin-travel-requests--travelRequest_id--cancel"
-               value="cancelled"
+               value="rejected"
                data-component="body">
     <br>
-<p>Example: <code>cancelled</code></p>
+<p>Example: <code>rejected</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>approved</code></li> <li><code>rejected</code></li> <li><code>cancelled</code></li></ul>
         </div>
