@@ -261,7 +261,32 @@ Authorization: Bearer {token}
 }
 ```
 
-## 📚 Documentação
+## � Testando a API
+
+### Opções para Testar
+
+#### 1. **Postman Collection** 📮
+```bash
+# Importe a collection localizada em:
+./postman/
+# A collection contém todas as APIs com exemplos e configurações prontas
+```
+
+#### 2. **Documentação Interativa** 🌐
+```bash
+# Acesse a documentação Swagger/OpenAPI:
+http://localhost:8080/docs
+# Interface para testar endpoints diretamente no navegador
+```
+
+#### 3. **Laravel Telescope** 🔭
+```bash
+# Monitore requests em tempo real:
+http://localhost:8080/telescope
+# Veja queries, performance e debugging
+```
+
+## �📚 Documentação
 
 ### 📖 Documentação Principal
 - **[📋 INDEX](./docs/INDEX.md)** - Índice completo da documentação
@@ -274,6 +299,7 @@ Authorization: Bearer {token}
 - **[📋 API Routes](./docs/API_ROUTES.md)** - Documentação completa das rotas
 - **[📦 API Payloads](./docs/API_PAYLOADS.md)** - Exemplos de payloads e respostas
 - **[🌐 API Documentation](http://localhost:8080/docs)** - Documentação interativa da API (Swagger/OpenAPI)
+- **[📮 Postman Collection](./postman/)** - Collection do Postman com todas as APIs
 
 ### 🔍 Ferramentas de Desenvolvimento
 - **[🔭 Laravel Telescope](http://localhost:8080/telescope)** - Monitoramento e debugging em tempo real
@@ -318,6 +344,21 @@ Authorization: Bearer {token}
 - `PATCH /api/admin/travel-requests/{id}/reject` - Rejeitar
 
 Para documentação completa, consulte: [`docs/API_ROUTES.md`](docs/API_ROUTES.md)
+
+### 📮 Postman Collection
+
+A pasta `postman/` contém a collection completa do Postman com:
+
+- **✅ Todas as APIs**: Endpoints completos com exemplos
+- **🔐 Autenticação**: Configuração automática de tokens
+- **📝 Variáveis**: Environment variables pré-configuradas
+- **🧪 Testes**: Scripts de validação automática
+- **📊 Exemplos**: Requests e responses de exemplo
+
+**Como usar:**
+1. Importe a collection do diretório `postman/`
+2. Configure as variáveis de ambiente
+3. Execute os requests diretamente
 
 ## 🧪 Testes
 
@@ -390,6 +431,7 @@ onfly-microservice/
 │   ├── migrations/                # Database Migrations
 │   └── seeders/                   # Database Seeders
 ├── docs/                          # Documentação
+├── postman/                       # Collection do Postman
 ├── routes/
 │   ├── api.php                    # Rotas principais
 │   ├── admin.php                  # Rotas administrativas
@@ -540,6 +582,13 @@ php artisan scribe:generate
 # Acesse: http://localhost:8080/telescope
 # Para limpar dados do Telescope:
 php artisan telescope:clear
+```
+
+**Q: Como usar a collection do Postman?**
+```bash
+# 1. Importe a collection da pasta postman/
+# 2. Configure as variáveis de ambiente
+# 3. Execute os requests
 ```
 
 **Q: Como limpar cache?**
