@@ -25,8 +25,9 @@ if [ "$DB_HOST" != "" ]; then
       # Wait for 5 seconds before check again
       sleep 5
     done
-
+    php artisan telescope:install
     php artisan migrate --force
+    php artisan db:seed --force
 fi
 
 # Execute the provided command (which is typically php-fpm)

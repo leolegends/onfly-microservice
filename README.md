@@ -138,6 +138,11 @@ travel_request_status_history (id, travel_request_id, user_id, previous_status, 
 - **Unit Tests**: Testes unitários
 - **Test Helpers**: Utilitários de teste customizados
 
+### Desenvolvimento & Debug
+- **Laravel Telescope**: Monitoramento e debugging em tempo real
+- **Scribe**: Geração automática de documentação da API
+- **Laravel Tinker**: REPL para desenvolvimento
+
 ### DevOps
 - **Docker**: Containerização
 - **Docker Compose**: Orquestração de containers
@@ -185,13 +190,22 @@ php artisan serve
 git clone https://github.com/leolegends/onfly-microservice.git
 cd onfly-microservice
 
+# Configurar ambiente
+cp .env.example .env
+
 # Construir e iniciar containers
 docker-compose up -d
 
-# Executar migrações
-docker-compose exec app php artisan migrate
+# Usuario padrão da API (criado automaticamente):
+# Email: admin@onfly.com
+# Password: password
 
 # Acessar em http://localhost:8000
+
+# Ferramentas de Desenvolvimento:
+# - API Documentation: http://localhost:8080/docs
+# - Laravel Telescope: http://localhost:8080/telescope
+
 ```
 
 ## 📖 Uso
@@ -259,6 +273,10 @@ Authorization: Bearer {token}
 ### 🚀 Documentação da API
 - **[📋 API Routes](./docs/API_ROUTES.md)** - Documentação completa das rotas
 - **[📦 API Payloads](./docs/API_PAYLOADS.md)** - Exemplos de payloads e respostas
+- **[🌐 API Documentation](http://localhost:8080/docs)** - Documentação interativa da API (Swagger/OpenAPI)
+
+### 🔍 Ferramentas de Desenvolvimento
+- **[🔭 Laravel Telescope](http://localhost:8080/telescope)** - Monitoramento e debugging em tempo real
 
 ### 📊 Changelog
 - **[📋 CHANGELOG](./CHANGELOG.md)** - Histórico de versões e alterações
@@ -432,6 +450,20 @@ FROM php:8.2-fpm
 
 ## 📈 Monitoramento
 
+### Laravel Telescope
+
+O projeto inclui o **Laravel Telescope** para monitoramento e debugging em tempo real:
+
+- **📊 Dashboard**: Interface visual para monitoramento
+- **🔍 Debugging**: Rastreamento de requests, queries e exceptions
+- **📈 Performance**: Métricas de performance e tempo de resposta
+- **🗄️ Database**: Monitoramento de queries SQL
+- **📧 Mail**: Visualização de emails enviados
+- **🔔 Notifications**: Rastreamento de notificações
+- **⚡ Cache**: Monitoramento de operações de cache
+
+**Acesso**: [http://localhost:8080/telescope](http://localhost:8080/telescope)
+
 ### Health Checks
 
 - `GET /api/health` - Status geral do sistema
@@ -443,6 +475,12 @@ FROM php:8.2-fpm
 - **Memory**: Uso de memória
 - **Storage**: Espaço em disco
 - **Cache**: Status do Redis
+
+### Documentação da API
+
+- **Swagger/OpenAPI**: [http://localhost:8080/docs](http://localhost:8080/docs)
+- **Endpoints**: Documentação interativa com exemplos
+- **Testing**: Interface para testar endpoints diretamente
 
 ## 🤝 Contribuição
 
@@ -495,6 +533,13 @@ php artisan test
 **Q: Como gerar documentação da API?**
 ```bash
 php artisan scribe:generate
+```
+
+**Q: Como acessar o Laravel Telescope?**
+```bash
+# Acesse: http://localhost:8080/telescope
+# Para limpar dados do Telescope:
+php artisan telescope:clear
 ```
 
 **Q: Como limpar cache?**
