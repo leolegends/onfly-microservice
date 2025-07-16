@@ -19,8 +19,7 @@ class TravelRequestService
         return DB::transaction(function () use ($data) {
             $travelRequest = TravelRequest::create($data);
             
-            // Create status history entry
-            $this->createStatusHistory($travelRequest, null, TravelRequest::STATUS_REQUESTED, 'Travel request created');
+            // O histórico é criado automaticamente pelo Observer
             
             return $travelRequest;
         });

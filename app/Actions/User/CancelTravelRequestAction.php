@@ -29,12 +29,7 @@ class CancelTravelRequestAction
             'cancelled_at' => now(),
         ]);
 
-        // Registrar o histórico de mudança de status
-        $travelRequest->statusHistory()->create([
-            'status' => TravelRequest::STATUS_CANCELLED,
-            'changed_by' => Auth::id(),
-            'changed_at' => now(),
-        ]);
+        // O histórico é criado automaticamente pelo Observer
 
         return $travelRequest;
     }

@@ -5,6 +5,7 @@ namespace App\Http\Requests\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
+use App\Models\TravelRequest;
 
 class UpdateTravelRequestRequest extends FormRequest
 {
@@ -13,7 +14,27 @@ class UpdateTravelRequestRequest extends FormRequest
      */
     public function authorize(): bool
     {
+        $travelRequest = $this->route('travelRequest');
+        
+        // Verificar se a solicitação existe e pode ser editada
+        if ($travelRequest && $travelRequest->status !== TravelRequest::STATUS_REQUESTED) {
+            return false;
+        }
+        
         return true;
+    }
+
+    /**
+     * Get the validation error message for authorization failure.
+     */
+    protected function failedAuthorization()
+    {
+        throw new HttpResponseException(
+            response()->json([
+                'success' => false,
+                'message' => 'Esta solicitação não pode ser editada. Apenas solicitações com status "solicitado" podem ser atualizadas.',
+            ], 403)
+        );
     }
 
     /**
@@ -26,8 +47,8 @@ class UpdateTravelRequestRequest extends FormRequest
         return [
             'requestor_name' => ['sometimes', 'required', 'string', 'max:255'],
             'destination' => ['sometimes', 'required', 'string', 'max:255'],
-            'departure_date' => ['sometimes', 'required', 'date', 'after:today'],
-            'return_date' => ['sometimes', 'required', 'date', 'after:departure_date'],
+            'departure_date' => ['required', 'date_format:d-m-Y'],
+            'return_date' => ['required', 'date_format:d-m-Y', 'after_or_equal:departure_date', 'after_or_equal:today'],
             'purpose' => ['sometimes', 'required', 'string', 'max:1000'],
             'estimated_cost' => ['sometimes', 'nullable', 'numeric', 'min:0', 'max:999999.99'],
             'justification' => ['sometimes', 'required', 'string', 'max:2000'],
@@ -64,9 +85,9 @@ class UpdateTravelRequestRequest extends FormRequest
             'requestor_name.required' => 'O nome do solicitante é obrigatório.',
             'destination.required' => 'O destino é obrigatório.',
             'departure_date.required' => 'A data de ida é obrigatória.',
-            'departure_date.after' => 'A data de ida deve ser posterior a hoje.',
-            'return_date.required' => 'A data de volta é obrigatória.',
-            'return_date.after' => 'A data de volta deve ser posterior à data de ida.',
+            'departure_date.date_format' => 'A data de ida deve estar no formato dd-mm-aaaa.',
+            'return_date.date_format' => 'A data de volta deve estar no formato dd-mm-aaaa.',
+            'return_date.after_or_equal' => 'A data de volta deve ser maior ou igual à data de ida.',
             'purpose.required' => 'O propósito da viagem é obrigatório.',
             'purpose.max' => 'O propósito não pode ter mais de 1000 caracteres.',
             'estimated_cost.numeric' => 'O custo estimado deve ser um número.',

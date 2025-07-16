@@ -51,7 +51,7 @@ class TravelRequestController extends Controller
     public function store(CreateTravelRequestRequest $request, CreateTravelRequestAction $action): JsonResponse
     {
         try {
-            
+
             $travelRequest = $action->execute($request->validated());
 
             return response()->json([
@@ -112,7 +112,9 @@ class TravelRequestController extends Controller
      */
     public function cancel(TravelRequest $travelRequest, CancelTravelRequestAction $action): JsonResponse
     {
+
         try {
+            
             $cancelledTravelRequest = $action->execute($travelRequest);
 
             return response()->json([

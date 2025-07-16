@@ -32,7 +32,9 @@ class ProfileController extends Controller
      */
     public function update(UpdateProfileRequest $request, UpdateProfileAction $action): JsonResponse
     {
+
         try {
+
             $user = $action->execute($request->validated());
 
             return response()->json([
@@ -40,6 +42,7 @@ class ProfileController extends Controller
                 'message' => 'Perfil atualizado com sucesso.',
                 'data' => new UserProfileResource($user),
             ]);
+            
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,

@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Models\TravelRequest;
 use App\Notifications\TravelRequestStatusChanged;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class TravelRequestObserver
 {
@@ -13,11 +14,45 @@ class TravelRequestObserver
      */
     public function created(TravelRequest $travelRequest): void
     {
+        // Create initial status history entry
+        $travelRequest->statusHistory()->create([
+            'new_status' => $travelRequest->status,
+            'user_id' => $travelRequest->user_id,
+            'notes' => 'Solicitação de viagem criada',
+        ]);
+        
         Log::info('Travel request created', [
             'id' => $travelRequest->id,
             'user_id' => $travelRequest->user_id,
             'destination' => $travelRequest->destination,
         ]);
+    }
+
+    /**
+     * Handle the TravelRequest "updating" event.
+     */
+    public function updating(TravelRequest $travelRequest): void
+    {
+        // Check if status is changing
+        if ($travelRequest->isDirty('status')) {
+            $originalStatus = $travelRequest->getOriginal('status');
+            $newStatus = $travelRequest->status;
+            
+            // Create status history entry before updating
+            $travelRequest->statusHistory()->create([
+                'previous_status' => $originalStatus,
+                'new_status' => $newStatus,
+                'user_id' => Auth::id(),
+                'notes' => $travelRequest->rejection_reason ?? null,
+            ]);
+            
+            Log::info('Travel request status history created', [
+                'id' => $travelRequest->id,
+                'from' => $originalStatus,
+                'to' => $newStatus,
+                'user_id' => Auth::id(),
+            ]);
+        }
     }
 
     /**

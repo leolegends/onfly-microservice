@@ -14,30 +14,32 @@ class NotificationController extends Controller
     /**
      * Lista Notificações do Usuário
      */
-    public function index(Request $request): JsonResponse
+    public function index(): JsonResponse
     {
         try {
             $userId = Auth::id();
             
-            // Buscar solicitações de viagem do usuário com mudanças de status
-            $travelRequests = TravelRequest::with(['statusHistory.user'])
+            $notifications = TravelRequest::with(['statusHistory' => function($query) use ($userId) {
+                    $query->where('approver_id', '!=', $userId)
+                        ->latest()
+                        ->take(1);
+                }, 'statusHistory.user'])
                 ->where('user_id', $userId)
                 ->whereIn('status', [
                     TravelRequest::STATUS_APPROVED,
                     TravelRequest::STATUS_REJECTED,
                     TravelRequest::STATUS_CANCELLED
                 ])
+                ->whereHas('statusHistory', function($query) use ($userId) {
+                    $query->where('approver_id', '!=', $userId);
+                })
                 ->orderBy('updated_at', 'desc')
                 ->take(50)
-                ->get();
-
-            $notifications = [];
-            
-            foreach ($travelRequests as $travelRequest) {
-                $lastStatus = $travelRequest->statusHistory()->latest()->first();
-                
-                if ($lastStatus && $lastStatus->changed_by !== $userId) {
-                    $notifications[] = [
+                ->get()
+                ->map(function($travelRequest) {
+                    $statusHistory = $travelRequest->statusHistory->first();
+                    
+                    return [
                         'id' => $travelRequest->id,
                         'type' => 'travel_request_status_change',
                         'title' => $this->getNotificationTitle($travelRequest->status),
@@ -45,21 +47,20 @@ class NotificationController extends Controller
                         'data' => [
                             'travel_request_id' => $travelRequest->id,
                             'status' => $travelRequest->status,
-                            'changed_by' => $lastStatus->user->name ?? 'Sistema',
-                            'changed_at' => $lastStatus->changed_at,
+                            'changed_by' => $statusHistory->user->name ?? 'Sistema',
+                            'changed_at' => $statusHistory->changed_at,
                         ],
                         'read' => false,
-                        'created_at' => $lastStatus->changed_at,
+                        'created_at' => $statusHistory->changed_at,
                     ];
-                }
-            }
+                });
 
             return response()->json([
                 'success' => true,
-                'data' => NotificationResource::collection(collect($notifications)),
+                'data' => NotificationResource::collection($notifications),
                 'meta' => [
-                    'total' => count($notifications),
-                    'unread' => count($notifications), // Simplified - assuming all are unread
+                    'total' => $notifications->count(),
+                    'unread' => $notifications->count(),
                 ],
             ]);
         } catch (\Exception $e) {

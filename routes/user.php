@@ -34,21 +34,6 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'user'], function ()
         Route::patch('/{travelRequest}/cancel', [TravelRequestController::class, 'cancel']);
     });
 
-    // Manager routes (approve/reject requests)
-    Route::group(['prefix' => 'manager', 'middleware' => ['manager']], function () {
-        Route::prefix('travel-requests')->group(function () {
-            Route::get('/pending', function () {
-                return response()->json(['message' => 'List pending travel requests']);
-            });
-            Route::patch('/{id}/approve', function ($id) {
-                return response()->json(['message' => "Approve travel request ID: {$id}"]);
-            });
-            Route::patch('/{id}/reject', function ($id) {
-                return response()->json(['message' => "Reject travel request ID: {$id}"]);
-            });
-        });
-    });
-
     // Notifications routes
     Route::prefix('notifications')->group(function () {
         Route::get('/', [NotificationController::class, 'index']);

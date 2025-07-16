@@ -19,11 +19,7 @@ class UpdateTravelRequestAction
             throw new \Exception('Você não tem permissão para editar esta solicitação.');
         }
 
-        // Verificar se a solicitação ainda pode ser editada
-        if ($travelRequest->status !== TravelRequest::STATUS_REQUESTED) {
-            throw new \Exception('Esta solicitação não pode mais ser editada.');
-        }
-
+        // A verificação de status é feita no Form Request
         $travelRequest->update($data);
 
         return $travelRequest;
