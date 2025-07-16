@@ -1,0 +1,1139 @@
+{
+	"info": {
+		"_postman_id": "ac879dbf-86a9-4c2b-84f3-eda8d681754c",
+		"name": "Onfly",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4605435"
+	},
+	"item": [
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Dashboard",
+					"item": [
+						{
+							"name": "Dashboard",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "6|yNbiaAjNEzEPnDcECrXg0xKNoR3gDAGmzgnw6gfPcf294698",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/admin/dashboard",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"admin",
+										"dashboard"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Health",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "13|1qgqPrXuopo0MZjRxcmnIRgRiyllibDEmNGvZAsZ77f85501",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/admin/health",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"admin",
+										"health"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Users",
+					"item": [
+						{
+							"name": "List Users",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "9|h2pa5lqQgDHum2lB7BpP68p2AyjhE9X1VxRvqGnQ68d424db",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/admin/users?order_by=created_at&order_direction=asc",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"admin",
+										"users"
+									],
+									"query": [
+										{
+											"key": "role",
+											"value": null,
+											"description": "Filtro por Role",
+											"disabled": true
+										},
+										{
+											"key": "department",
+											"value": null,
+											"description": "Filtro por department",
+											"disabled": true
+										},
+										{
+											"key": "is_active",
+											"value": "1",
+											"description": "Filtro por is Active",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "Glover",
+											"description": "filtro por nome ou email",
+											"disabled": true
+										},
+										{
+											"key": "order_by",
+											"value": "created_at",
+											"description": "campo para order by ex: created_at"
+										},
+										{
+											"key": "order_direction",
+											"value": "asc",
+											"description": "desc ou asc"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List User By Id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "9|h2pa5lqQgDHum2lB7BpP68p2AyjhE9X1VxRvqGnQ68d424db",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/admin/users/13",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"admin",
+										"users",
+										"13"
+									],
+									"query": [
+										{
+											"key": "role",
+											"value": null,
+											"description": "Filtro por Role",
+											"disabled": true
+										},
+										{
+											"key": "department",
+											"value": null,
+											"description": "Filtro por department",
+											"disabled": true
+										},
+										{
+											"key": "is_active",
+											"value": "1",
+											"description": "Filtro por is Active",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "Glover",
+											"description": "filtro por nome ou email",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create User",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "6|yNbiaAjNEzEPnDcECrXg0xKNoR3gDAGmzgnw6gfPcf294698",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Leo Vini\",\n    \"email\": \"leo@gmail.com\",\n    \"password\": \"123mudar\",\n    \"role\": \"employee\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/admin/users",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"admin",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update User",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "6|yNbiaAjNEzEPnDcECrXg0xKNoR3gDAGmzgnw6gfPcf294698",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Leo Vinicius\",\n    \"email\": \"leo@gmail.com\",\n    \"password\": \"123mudar\",\n    \"role\": \"employee\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/admin/users/14",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"admin",
+										"users",
+										"14"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete User",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "6|yNbiaAjNEzEPnDcECrXg0xKNoR3gDAGmzgnw6gfPcf294698",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/admin/users/14",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"admin",
+										"users",
+										"14"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Travel Requests",
+					"item": [
+						{
+							"name": "Travels",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "10|3kLatnLWZtaeVGeW2Tb6t8T2EMbdtK7qvJol1eCSe7a22ee4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/admin/travel-requests?status=approved&destination&departure_date_from&departure_date_to&request_date_from&order_by&order_direction&per_page=1&page=1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"admin",
+										"travel-requests"
+									],
+									"query": [
+										{
+											"key": "status",
+											"value": "approved",
+											"description": "filtro por status"
+										},
+										{
+											"key": "user_id",
+											"value": "1",
+											"description": "filtro por user_id",
+											"disabled": true
+										},
+										{
+											"key": "destination",
+											"value": null,
+											"description": "filtro por destination"
+										},
+										{
+											"key": "departure_date_from",
+											"value": null,
+											"description": "filtro por departure_date_from"
+										},
+										{
+											"key": "departure_date_to",
+											"value": null,
+											"description": "filtro por departure_date_to"
+										},
+										{
+											"key": "request_date_from",
+											"value": null,
+											"description": "filtro por request_date_from"
+										},
+										{
+											"key": "order_by",
+											"value": null,
+											"description": "Campo de ordenacao ex: created_at"
+										},
+										{
+											"key": "order_direction",
+											"value": null,
+											"description": "desc ou asc"
+										},
+										{
+											"key": "per_page",
+											"value": "1",
+											"description": "Quantidade por pagina"
+										},
+										{
+											"key": "page",
+											"value": "1",
+											"description": "Pagina"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Statistics",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "10|3kLatnLWZtaeVGeW2Tb6t8T2EMbdtK7qvJol1eCSe7a22ee4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/admin/travel-requests/statistics",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"admin",
+										"travel-requests",
+										"statistics"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Travel By ID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "10|3kLatnLWZtaeVGeW2Tb6t8T2EMbdtK7qvJol1eCSe7a22ee4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/admin/travel-requests/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"admin",
+										"travel-requests",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Travel Approve by ID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "10|3kLatnLWZtaeVGeW2Tb6t8T2EMbdtK7qvJol1eCSe7a22ee4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/admin/travel-requests/5/approve",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"admin",
+										"travel-requests",
+										"5",
+										"approve"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Travel Reject by ID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "12|dCDYV9M0bujLwtxL5PxvFGqtAcEe6hAXme2yxBN17670fa2e",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"status\": \"rejected\",\n    \"reason\": \"budget not enough\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/admin/travel-requests/4/reject",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"admin",
+										"travel-requests",
+										"4",
+										"reject"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Travel Cancel by ID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "12|dCDYV9M0bujLwtxL5PxvFGqtAcEe6hAXme2yxBN17670fa2e",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"status\": \"cancelled\",\n    \"reason\": \"budget not enough\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/admin/travel-requests/6/cancel",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"admin",
+										"travel-requests",
+										"6",
+										"cancel"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Settings",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "12|dCDYV9M0bujLwtxL5PxvFGqtAcEe6hAXme2yxBN17670fa2e",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:8080/api/admin/settings",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"admin",
+								"settings"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Travels Requests",
+					"item": [
+						{
+							"name": "Travels Requests",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "5|cSjYC0WDCXUgwrG6K5XG0mJAHveMvDj1kWwyHpok347d42d6",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/user/travel-requests?status=requested",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"user",
+										"travel-requests"
+									],
+									"query": [
+										{
+											"key": "status",
+											"value": "requested",
+											"description": "Filtra por Status (requested, cancelled, approved)"
+										},
+										{
+											"key": "departure_date_from",
+											"value": null,
+											"description": "Data de Ida dd-mm-yyyy",
+											"disabled": true
+										},
+										{
+											"key": "departure_date_to",
+											"value": null,
+											"description": "Data de volta dd-mm-yyyy",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": null,
+											"description": "Busca por destino, solicitante, proposito.",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Travels Request by ID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "5|cSjYC0WDCXUgwrG6K5XG0mJAHveMvDj1kWwyHpok347d42d6",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/user/travel-requests/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"user",
+										"travel-requests",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Travel Request",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "11|PA4pHSCs2wjOfqalp4SdEYFetAFX0v0mgCHVDo7mcac40974",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"requestor_name\": \"Leonardo\",\n    \"departure_date\": \"16-07-2025\",\n    \"return_date\": \"16-07-2025\",\n    \"justification\": \"Viagem a trabalho\",\n    \"destination\": \"Salvador - BA\",\n    \"purpose\": \"Venda de Software e Consultoria\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/user/travel-requests",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"user",
+										"travel-requests"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Travel Request",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "5|cSjYC0WDCXUgwrG6K5XG0mJAHveMvDj1kWwyHpok347d42d6",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"requestor_name\": \"Leonardo\",\n    \"departure_date\": \"16-07-2025\",\n    \"return_date\": \"16-07-2025\",\n    \"justification\": \"Funcionario precisa atender cliente\",\n    \"destination\": \"Salvador - BA\",\n    \"purpose\": \"Venda de Software e Consultoria\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/user/travel-requests/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"user",
+										"travel-requests",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Cancel Travel",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "11|PA4pHSCs2wjOfqalp4SdEYFetAFX0v0mgCHVDo7mcac40974",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/user/travel-requests/5/cancel",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"user",
+										"travel-requests",
+										"5",
+										"cancel"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Notifications",
+					"item": [
+						{
+							"name": "User Notifications",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "12|dCDYV9M0bujLwtxL5PxvFGqtAcEe6hAXme2yxBN17670fa2e",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/user/notifications",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"user",
+										"notifications"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "User Notifications Stats",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "6|yNbiaAjNEzEPnDcECrXg0xKNoR3gDAGmzgnw6gfPcf294698",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/user/notifications/stats",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"user",
+										"notifications",
+										"stats"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Profile",
+					"item": [
+						{
+							"name": "User Info",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "6|yNbiaAjNEzEPnDcECrXg0xKNoR3gDAGmzgnw6gfPcf294698",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/user/profile",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"user",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update User Profile",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "6|yNbiaAjNEzEPnDcECrXg0xKNoR3gDAGmzgnw6gfPcf294698",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Leonardo R\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/user/profile",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"user",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "User Change Password",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "7|WlsIMubJQzeKgx1luzt0Cha37cprtdSA3iurSWE237f8d708",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"current_password\": \"password\",\n    \"password\": \"password\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/user/profile/change-password",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"user",
+										"profile",
+										"change-password"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@onfly.com\",\n    \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/auth/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "5|cSjYC0WDCXUgwrG6K5XG0mJAHveMvDj1kWwyHpok347d42d6",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 3|7tcwISKGs5jQ4IUnyvjvkQusOVxkmJ8BP1jTyJwz06d1ab2b",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/auth/logout",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "me",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "8|5Cym8CdKXM6685iryjzytLILYM3OHcge8PLWlQwW261b9649",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 5|cSjYC0WDCXUgwrG6K5XG0mJAHveMvDj1kWwyHpok347d42d6",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:8080/api/auth/me",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"auth",
+								"me"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
