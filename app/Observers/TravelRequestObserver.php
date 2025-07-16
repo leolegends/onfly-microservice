@@ -17,7 +17,7 @@ class TravelRequestObserver
         // Create initial status history entry
         $travelRequest->statusHistory()->create([
             'new_status' => $travelRequest->status,
-            'user_id' => $travelRequest->user_id,
+            'user_id' => $travelRequest->user_id ?? Auth::id(),
             'notes' => 'Solicitação de viagem criada',
         ]);
         
@@ -42,7 +42,7 @@ class TravelRequestObserver
             $travelRequest->statusHistory()->create([
                 'previous_status' => $originalStatus,
                 'new_status' => $newStatus,
-                'user_id' => Auth::id(),
+                'user_id' => Auth::id() ?? $travelRequest->user_id,
                 'notes' => $travelRequest->rejection_reason ?? null,
             ]);
             

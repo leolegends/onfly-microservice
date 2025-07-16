@@ -24,11 +24,9 @@ class TravelRequestStatusHistory extends Model
      */
     protected $fillable = [
         'travel_request_id',
-        'user_id',
-        'previous_status',
-        'new_status',
-        'reason',
-        'notes',
+        'status',
+        'comment',
+        'changed_by',
     ];
 
     /**
@@ -44,6 +42,28 @@ class TravelRequestStatusHistory extends Model
      */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'changed_by');
+    }
+
+    /**
+     * Get formatted date
+     */
+    public function getFormattedDate(): string
+    {
+        return $this->created_at->format('d/m/Y H:i');
+    }
+
+    /**
+     * Get status label
+     */
+    public function getStatusLabel(): string
+    {
+        return match ($this->status) {
+            TravelRequest::STATUS_REQUESTED => 'Solicitado',
+            TravelRequest::STATUS_APPROVED => 'Aprovado',
+            TravelRequest::STATUS_REJECTED => 'Rejeitado',
+            TravelRequest::STATUS_CANCELLED => 'Cancelado',
+            default => 'Desconhecido',
+        };
     }
 }

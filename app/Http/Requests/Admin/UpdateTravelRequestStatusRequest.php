@@ -39,9 +39,9 @@ class UpdateTravelRequestStatusRequest extends FormRequest
         return [
             'status.required' => 'O status é obrigatório.',
             'status.in' => 'O status deve ser: approved, rejected ou cancelled.',
-            'reason.required_if' => 'O motivo é obrigatório quando o status é rejeitado ou cancelado.',
-            'reason.max' => 'O motivo não pode ter mais de 1000 caracteres.',
-            'notes.max' => 'As observações não podem ter mais de 1000 caracteres.',
+            'reason.required_if' => 'O reason é obrigatório quando o status é rejeitado ou cancelado.',
+            'reason.max' => 'O reason não pode ter mais de 1000 caracteres.',
+            'notes.max' => 'O notes não pode ter mais de 1000 caracteres.',
         ];
     }
 }

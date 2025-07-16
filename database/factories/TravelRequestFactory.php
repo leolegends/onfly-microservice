@@ -16,18 +16,22 @@ class TravelRequestFactory extends Factory
      */
     public function definition(): array
     {
-        $departureDate = $this->faker->dateTimeBetween('+1 week', '+3 months');
-        $returnDate = $this->faker->dateTimeBetween($departureDate, '+2 weeks');
+        $startDate = $this->faker->dateTimeBetween('+1 week', '+3 months');
+        $endDate = $this->faker->dateTimeBetween($startDate, (clone $startDate)->add(new \DateInterval('P2M')));
         
         return [
             'user_id' => \App\Models\User::factory(),
             'requestor_name' => $this->faker->name(),
             'destination' => $this->faker->city() . ', ' . $this->faker->country(),
-            'departure_date' => $departureDate,
-            'return_date' => $returnDate,
+            'departure_date' => $startDate,
+            'return_date' => $endDate,
+            'start_date' => $startDate,
+            'end_date' => $endDate,
             'status' => $this->faker->randomElement(['requested', 'approved', 'cancelled', 'rejected']),
             'purpose' => $this->faker->paragraph(2),
             'estimated_cost' => $this->faker->randomFloat(2, 500, 5000),
+            'budget' => $this->faker->randomFloat(2, 500, 5000),
+            'notes' => $this->faker->optional()->paragraph(),
             'justification' => $this->faker->paragraph(3),
         ];
     }

@@ -16,11 +16,11 @@ class NotificationController extends Controller
      */
     public function index(): JsonResponse
     {
-        try {
+        // try {
             $userId = Auth::id();
             
             $notifications = TravelRequest::with(['statusHistory' => function($query) use ($userId) {
-                    $query->where('approver_id', '!=', $userId)
+                    $query->where('user_id', '!=', $userId)
                         ->latest()
                         ->take(1);
                 }, 'statusHistory.user'])
@@ -31,7 +31,7 @@ class NotificationController extends Controller
                     TravelRequest::STATUS_CANCELLED
                 ])
                 ->whereHas('statusHistory', function($query) use ($userId) {
-                    $query->where('approver_id', '!=', $userId);
+                    $query->where('user_id', '!=', $userId);
                 })
                 ->orderBy('updated_at', 'desc')
                 ->take(50)
@@ -48,27 +48,27 @@ class NotificationController extends Controller
                             'travel_request_id' => $travelRequest->id,
                             'status' => $travelRequest->status,
                             'changed_by' => $statusHistory->user->name ?? 'Sistema',
-                            'changed_at' => $statusHistory->changed_at,
+                            'changed_at' => $statusHistory->created_at,
                         ],
                         'read' => false,
-                        'created_at' => $statusHistory->changed_at,
+                        'created_at' => $statusHistory->created_at,
                     ];
-                });
+            });
 
             return response()->json([
                 'success' => true,
-                'data' => NotificationResource::collection($notifications),
+                'data' => $notifications,
                 'meta' => [
                     'total' => $notifications->count(),
                     'unread' => $notifications->count(),
                 ],
             ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Erro ao buscar notificações: ' . $e->getMessage(),
-            ], 500);
-        }
+        // } catch (\Exception $e) {
+        //     return response()->json([
+        //         'success' => false,
+        //         'message' => 'Erro ao buscar notificações: ' . $e->getMessage(),
+        //     ], 500);
+        // }
     }
 
     /**

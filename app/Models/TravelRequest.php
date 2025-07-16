@@ -24,13 +24,16 @@ class TravelRequest extends Model
         'destination',
         'departure_date',
         'return_date',
+        'start_date',
+        'end_date',
         'status',
         'purpose',
-        'estimated_cost',
+        'budget',
         'justification',
         'rejection_reason',
         'approved_at',
         'cancelled_at',
+        'notes',
     ];
 
     /**
@@ -39,11 +42,22 @@ class TravelRequest extends Model
      * @var array<string, string>
      */
     protected $casts = [
+        'start_date' => 'date',
+        'end_date' => 'date',
         'departure_date' => 'date',
         'return_date' => 'date',
         'approved_at' => 'datetime',
         'cancelled_at' => 'datetime',
-        'estimated_cost' => 'decimal:2',
+        'budget' => 'decimal:2',
+    ];
+
+    /**
+     * The attributes that have default values.
+     *
+     * @var array<string, mixed>
+     */
+    protected $attributes = [
+        'status' => self::STATUS_REQUESTED,
     ];
 
     /**
@@ -124,11 +138,27 @@ class TravelRequest extends Model
     }
 
     /**
+     * Check if request is rejected
+     */
+    public function isRejected(): bool
+    {
+        return $this->status === self::STATUS_REJECTED;
+    }
+
+    /**
      * Check if request is cancelled
      */
     public function isCancelled(): bool
     {
         return $this->status === self::STATUS_CANCELLED;
+    }
+
+    /**
+     * Check if request is requested
+     */
+    public function isRequested(): bool
+    {
+        return $this->status === self::STATUS_REQUESTED;
     }
 
     /**
@@ -152,7 +182,7 @@ class TravelRequest extends Model
      */
     public function scopeByDateRange($query, $startDate, $endDate)
     {
-        return $query->whereBetween('departure_date', [$startDate, $endDate]);
+        return $query->whereBetween('start_date', [$startDate, $endDate]);
     }
 
     /**
@@ -169,5 +199,75 @@ class TravelRequest extends Model
     public function scopeByUser($query, $userId)
     {
         return $query->where('user_id', $userId);
+    }
+
+    /**
+     * Get duration in days
+     */
+    public function getDurationInDays(): int
+    {
+        return $this->start_date->diffInDays($this->end_date) + 1;
+    }
+
+    /**
+     * Check if travel is in the past
+     */
+    public function isInPast(): bool
+    {
+        return $this->start_date->isPast();
+    }
+
+    /**
+     * Check if travel is in the future
+     */
+    public function isInFuture(): bool
+    {
+        return $this->start_date->isFuture();
+    }
+
+    /**
+     * Check if travel is current
+     */
+    public function isCurrent(): bool
+    {
+        return $this->start_date->isPast() && $this->end_date->isFuture();
+    }
+
+    /**
+     * Get formatted budget
+     */
+    public function getFormattedBudget(): string
+    {
+        return 'R$ ' . number_format($this->budget, 2, ',', '.');
+    }
+
+    /**
+     * Get formatted start date
+     */
+    public function getFormattedStartDate(): string
+    {
+        return $this->start_date->format('d/m/Y');
+    }
+
+    /**
+     * Get formatted end date
+     */
+    public function getFormattedEndDate(): string
+    {
+        return $this->end_date->format('d/m/Y');
+    }
+
+    /**
+     * Get status label
+     */
+    public function getStatusLabel(): string
+    {
+        return match ($this->status) {
+            self::STATUS_REQUESTED => 'Solicitado',
+            self::STATUS_APPROVED => 'Aprovado',
+            self::STATUS_REJECTED => 'Rejeitado',
+            self::STATUS_CANCELLED => 'Cancelado',
+            default => 'Desconhecido',
+        };
     }
 }

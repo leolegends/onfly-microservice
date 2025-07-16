@@ -132,10 +132,11 @@ class TravelRequestService
      */
     private function canUpdateStatus(TravelRequest $travelRequest, string $newStatus, User $user): bool
     {
-        // User who made the request cannot approve/reject their own request
-        if ($travelRequest->user_id === $user->id && in_array($newStatus, [TravelRequest::STATUS_APPROVED, TravelRequest::STATUS_REJECTED])) {
+        // User who made the request cannot approve their own request
+        if ($travelRequest->user_id === $user->id && in_array($newStatus, [TravelRequest::STATUS_APPROVED])) {
             return false;
         }
+
 
         // Only managers/admins can approve/reject requests
         if (in_array($newStatus, [TravelRequest::STATUS_APPROVED, TravelRequest::STATUS_REJECTED]) && !$user->canApproveRequests()) {

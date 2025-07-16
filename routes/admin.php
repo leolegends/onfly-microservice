@@ -44,21 +44,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:sanctum', 'admin']], f
                 ]
             ]);
         });
-        Route::put('/', function () {
-            return response()->json(['message' => 'Configurações atualizadas com sucesso']);
-        });
     });
 
-    // Reports routes
-    Route::prefix('reports')->group(function () {
-        Route::get('travel-requests', function () {
-            return response()->json(['message' => 'Relatório de pedidos de viagem']);
-        });
-        Route::get('users', function () {
-            return response()->json(['message' => 'Relatório de usuários']);
-        });
-        Route::get('departments', function () {
-            return response()->json(['message' => 'Relatório de departamentos']);
-        });
-    });
 });

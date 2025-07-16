@@ -31,8 +31,8 @@ class DashboardController extends Controller
                 'approved' => TravelRequest::where('status', 'approved')->count(),
                 'cancelled' => TravelRequest::where('status', 'cancelled')->count(),
                 'rejected' => TravelRequest::where('status', 'rejected')->count(),
-                'by_month' => TravelRequest::selectRaw('MONTH(created_at) as month, COUNT(*) as count')
-                    ->whereYear('created_at', now()->year)
+                'by_month' => TravelRequest::selectRaw('CAST(strftime("%m", created_at) AS INTEGER) as month, COUNT(*) as count')
+                    ->whereRaw('strftime("%Y", created_at) = ?', [now()->year])
                     ->groupBy('month')
                     ->get()
                     ->pluck('count', 'month')
