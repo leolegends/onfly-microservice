@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests\Admin;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class CreateUserRequest extends FormRequest
 {
@@ -32,6 +34,25 @@ class CreateUserRequest extends FormRequest
         ];
     }
 
+        /**
+     * Handle a failed validation attempt.
+     *
+     * @param  \Illuminate\Contracts\Validation\Validator  $validator
+     * @return void
+     *
+     * @throws \Illuminate\Http\Exceptions\HttpResponseException
+     */
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(
+            response()->json([
+                'success' => false,
+                'message' => 'Dados de validação inválidos.',
+                'errors' => $validator->errors(),
+            ], 422)
+        );
+    }
+
     /**
      * Get custom messages for validator errors.
      *
@@ -40,14 +61,14 @@ class CreateUserRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => 'O nome é obrigatório.',
-            'email.required' => 'O email é obrigatório.',
-            'email.email' => 'O email deve ser válido.',
+            'name.required' => 'O campo name é obrigatório.',
+            'email.required' => 'O campo email é obrigatório.',
+            'email.email' => 'O campo email deve ser válido.',
             'email.unique' => 'Este email já está em uso.',
-            'password.required' => 'A senha é obrigatória.',
-            'password.min' => 'A senha deve ter pelo menos 8 caracteres.',
-            'role.required' => 'O cargo é obrigatório.',
-            'role.in' => 'O cargo deve ser: employee, manager ou admin.',
+            'password.required' => 'O campo password é obrigatório.',
+            'password.min' => 'O campo password deve ter pelo menos 8 caracteres.',
+            'role.required' => 'O campo role é obrigatório.',
+            'role.in' => 'O campo role deve ser: employee, manager ou admin.',
         ];
     }
 }
