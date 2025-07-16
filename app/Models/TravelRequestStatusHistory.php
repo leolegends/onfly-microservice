@@ -24,9 +24,11 @@ class TravelRequestStatusHistory extends Model
      */
     protected $fillable = [
         'travel_request_id',
-        'status',
-        'comment',
-        'changed_by',
+        'user_id',
+        'previous_status',
+        'new_status',
+        'reason',
+        'notes',
     ];
 
     /**
@@ -42,7 +44,7 @@ class TravelRequestStatusHistory extends Model
      */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'changed_by');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     /**
@@ -58,7 +60,7 @@ class TravelRequestStatusHistory extends Model
      */
     public function getStatusLabel(): string
     {
-        return match ($this->status) {
+        return match ($this->new_status) {
             TravelRequest::STATUS_REQUESTED => 'Solicitado',
             TravelRequest::STATUS_APPROVED => 'Aprovado',
             TravelRequest::STATUS_REJECTED => 'Rejeitado',

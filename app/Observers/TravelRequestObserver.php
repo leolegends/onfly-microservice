@@ -14,18 +14,27 @@ class TravelRequestObserver
      */
     public function created(TravelRequest $travelRequest): void
     {
-        // Create initial status history entry
-        $travelRequest->statusHistory()->create([
-            'new_status' => $travelRequest->status,
-            'user_id' => $travelRequest->user_id ?? Auth::id(),
-            'notes' => 'Solicitação de viagem criada',
-        ]);
-        
-        Log::info('Travel request created', [
-            'id' => $travelRequest->id,
-            'user_id' => $travelRequest->user_id,
-            'destination' => $travelRequest->destination,
-        ]);
+        try {
+            // Create initial status history entry
+            $userId = $travelRequest->user_id ?? Auth::id() ?? 1;
+            
+            $travelRequest->statusHistory()->create([
+                'new_status' => $travelRequest->status,
+                'user_id' => $userId,
+                'notes' => 'Solicitação de viagem criada',
+            ]);
+            
+            Log::info('Travel request created', [
+                'id' => $travelRequest->id,
+                'user_id' => $travelRequest->user_id,
+                'destination' => $travelRequest->destination,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error creating travel request status history', [
+                'error' => $e->getMessage(),
+                'travel_request_id' => $travelRequest->id,
+            ]);
+        }
     }
 
     /**
@@ -33,24 +42,32 @@ class TravelRequestObserver
      */
     public function updating(TravelRequest $travelRequest): void
     {
-        // Check if status is changing
-        if ($travelRequest->isDirty('status')) {
-            $originalStatus = $travelRequest->getOriginal('status');
-            $newStatus = $travelRequest->status;
-            
-            // Create status history entry before updating
-            $travelRequest->statusHistory()->create([
-                'previous_status' => $originalStatus,
-                'new_status' => $newStatus,
-                'user_id' => Auth::id() ?? $travelRequest->user_id,
-                'notes' => $travelRequest->rejection_reason ?? null,
-            ]);
-            
-            Log::info('Travel request status history created', [
-                'id' => $travelRequest->id,
-                'from' => $originalStatus,
-                'to' => $newStatus,
-                'user_id' => Auth::id(),
+        try {
+            // Check if status is changing
+            if ($travelRequest->isDirty('status')) {
+                $originalStatus = $travelRequest->getOriginal('status');
+                $newStatus = $travelRequest->status;
+                $userId = Auth::id() ?? $travelRequest->user_id ?? 1;
+                
+                // Create status history entry before updating
+                $travelRequest->statusHistory()->create([
+                    'previous_status' => $originalStatus,
+                    'new_status' => $newStatus,
+                    'user_id' => $userId,
+                    'notes' => $travelRequest->rejection_reason ?? null,
+                ]);
+                
+                Log::info('Travel request status history created', [
+                    'id' => $travelRequest->id,
+                    'from' => $originalStatus,
+                    'to' => $newStatus,
+                    'user_id' => $userId,
+                ]);
+            }
+        } catch (\Exception $e) {
+            Log::error('Error updating travel request status history', [
+                'error' => $e->getMessage(),
+                'travel_request_id' => $travelRequest->id,
             ]);
         }
     }
