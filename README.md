@@ -8,17 +8,22 @@
 
 ## 📋 Índice
 
-- [Sobre o Projeto](#sobre-o-projeto)
-- [Arquitetura](#arquitetura)
-- [Recursos](#recursos)
-- [Tecnologias](#tecnologias)
-- [Instalação](#instalação)
-- [Uso](#uso)
-- [API Documentation](#api-documentation)
-- [Testes](#testes)
-- [Estrutura do Projeto](#estrutura-do-projeto)
-- [Contribuição](#contribuição)
-- [Licença](#licença)
+- [🎯 Sobre o Projeto](#-sobre-o-projeto)
+- [🏗️ Arquitetura](#️-arquitetura)
+- [🚀 Recursos](#-recursos)
+- [🛠️ Tecnologias](#️-tecnologias)
+- [🔧 Instalação](#-instalação)
+- [📖 Uso](#-uso)
+- [📚 Documentação](#-documentação)
+- [📚 API Documentation](#-api-documentation)
+- [🧪 Testes](#-testes)
+- [📁 Estrutura do Projeto](#-estrutura-do-projeto)
+- [🔒 Segurança](#-segurança)
+- [🌐 Deployment](#-deployment)
+- [📈 Monitoramento](#-monitoramento)
+- [🤝 Contribuição](#-contribuição)
+- [📞 Contato](#-contato)
+- [📄 Licença](#-licença)
 
 ## 🎯 Sobre o Projeto
 
