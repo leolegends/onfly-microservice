@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\API\User\NotificationController;
+use App\Http\Controllers\API\User\ProfileController;
+use App\Http\Controllers\API\User\TravelRequestController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,37 +20,18 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'user'], function ()
     
     // User profile routes
     Route::prefix('profile')->group(function () {
-        Route::get('/', function () {
-            return response()->json(['message' => 'User profile']);
-        });
-        Route::put('/', function () {
-            return response()->json(['message' => 'Update user profile']);
-        });
-        Route::post('/change-password', function () {
-            return response()->json(['message' => 'Change password']);
-        });
+        Route::get('/', [ProfileController::class, 'show']);
+        Route::put('/', [ProfileController::class, 'update']);
+        Route::put('/change-password', [ProfileController::class, 'changePassword']);
     });
 
     // Travel request routes for authenticated users
     Route::prefix('travel-requests')->group(function () {
-        Route::get('/', function () {
-            return response()->json(['message' => 'List my travel requests']);
-        });
-        Route::get('/{id}', function ($id) {
-            return response()->json(['message' => "My travel request details for ID: {$id}"]);
-        });
-        Route::post('/', function () {
-            return response()->json(['message' => 'Create new travel request']);
-        });
-        Route::put('/{id}', function ($id) {
-            return response()->json(['message' => "Update my travel request ID: {$id}"]);
-        });
-        Route::patch('/{id}/cancel', function ($id) {
-            return response()->json(['message' => "Cancel my travel request ID: {$id}"]);
-        });
-        Route::get('/{id}/history', function ($id) {
-            return response()->json(['message' => "Travel request history for ID: {$id}"]);
-        });
+        Route::get('/', [TravelRequestController::class, 'index']);
+        Route::post('/', [TravelRequestController::class, 'store']);
+        Route::get('/{travelRequest}', [TravelRequestController::class, 'show']);
+        Route::put('/{travelRequest}', [TravelRequestController::class, 'update']);
+        Route::patch('/{travelRequest}/cancel', [TravelRequestController::class, 'cancel']);
     });
 
     // Manager routes (approve/reject requests)
@@ -67,14 +51,7 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'user'], function ()
 
     // Notifications routes
     Route::prefix('notifications')->group(function () {
-        Route::get('/', function () {
-            return response()->json(['message' => 'List notifications']);
-        });
-        Route::patch('/{id}/read', function ($id) {
-            return response()->json(['message' => "Mark notification as read ID: {$id}"]);
-        });
-        Route::delete('/{id}', function ($id) {
-            return response()->json(['message' => "Delete notification ID: {$id}"]);
-        });
+        Route::get('/', [NotificationController::class, 'index']);
+        Route::get('/stats', [NotificationController::class, 'stats']);
     });
 });

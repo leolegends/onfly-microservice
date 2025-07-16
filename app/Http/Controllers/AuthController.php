@@ -9,6 +9,9 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
+    /**
+     * Realiza Login do Usuário
+     */
     public function login(Request $request)
     {
         $request->validate([
@@ -39,6 +42,9 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * Realiza Logout do Usuário
+     */
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
@@ -46,6 +52,9 @@ class AuthController extends Controller
         return response()->json(['message' => 'Logged out successfully']);
     }
 
+    /**
+     * Busca Informações do Usuário Autenticado
+     */
     public function me(Request $request)
     {
         return response()->json($request->user());

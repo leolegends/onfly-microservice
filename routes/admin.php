@@ -15,83 +15,50 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth:sanctum', 'admin']], function () {
     
+    // Dashboard routes
+    Route::get('dashboard', [App\Http\Controllers\API\Admin\DashboardController::class, 'index']);
+    Route::get('health', [App\Http\Controllers\API\Admin\DashboardController::class, 'health']);
+    
     // User management routes
-    Route::prefix('users')->group(function () {
-        Route::get('/', function () {
-            return response()->json(['message' => 'List of users']);
-        });
-        Route::get('/{id}', function ($id) {
-            return response()->json(['message' => "User details for ID: {$id}"]);
-        });
-        Route::post('/', function () {
-            return response()->json(['message' => 'Create new user']);
-        });
-        Route::put('/{id}', function ($id) {
-            return response()->json(['message' => "Update user ID: {$id}"]);
-        });
-        Route::delete('/{id}', function ($id) {
-            return response()->json(['message' => "Delete user ID: {$id}"]);
-        });
-    });
-
+    Route::apiResource('users', App\Http\Controllers\API\Admin\UserController::class);
+    
     // Travel request management routes
     Route::prefix('travel-requests')->group(function () {
-        Route::get('/', function () {
-            return response()->json(['message' => 'List all travel requests']);
-        });
-        Route::get('/{id}', function ($id) {
-            return response()->json(['message' => "Travel request details for ID: {$id}"]);
-        });
-        Route::patch('/{id}/approve', function ($id) {
-            return response()->json(['message' => "Approve travel request ID: {$id}"]);
-        });
-        Route::patch('/{id}/reject', function ($id) {
-            return response()->json(['message' => "Reject travel request ID: {$id}"]);
-        });
-        Route::patch('/{id}/cancel', function ($id) {
-            return response()->json(['message' => "Cancel travel request ID: {$id}"]);
-        });
-        Route::get('/statistics', function () {
-            return response()->json(['message' => 'Travel request statistics']);
-        });
-    });
-
-    // Department management routes
-    Route::prefix('departments')->group(function () {
-        Route::get('/', function () {
-            return response()->json(['message' => 'List of departments']);
-        });
-        Route::post('/', function () {
-            return response()->json(['message' => 'Create new department']);
-        });
-        Route::put('/{id}', function ($id) {
-            return response()->json(['message' => "Update department ID: {$id}"]);
-        });
-        Route::delete('/{id}', function ($id) {
-            return response()->json(['message' => "Delete department ID: {$id}"]);
-        });
+        Route::get('/', [App\Http\Controllers\API\Admin\TravelRequestController::class, 'index']);
+        Route::get('statistics', [App\Http\Controllers\API\Admin\TravelRequestController::class, 'statistics']);
+        Route::get('{travelRequest}', [App\Http\Controllers\API\Admin\TravelRequestController::class, 'show']);
+        Route::patch('{travelRequest}/approve', [App\Http\Controllers\API\Admin\TravelRequestController::class, 'approve']);
+        Route::patch('{travelRequest}/reject', [App\Http\Controllers\API\Admin\TravelRequestController::class, 'reject']);
+        Route::patch('{travelRequest}/cancel', [App\Http\Controllers\API\Admin\TravelRequestController::class, 'cancel']);
     });
 
     // System settings routes
     Route::prefix('settings')->group(function () {
         Route::get('/', function () {
-            return response()->json(['message' => 'System settings']);
+            return response()->json([
+                'settings' => [
+                    'app_name' => config('app.name'),
+                    'timezone' => config('app.timezone'),
+                    'locale' => config('app.locale'),
+                    'environment' => config('app.env'),
+                ]
+            ]);
         });
         Route::put('/', function () {
-            return response()->json(['message' => 'Update system settings']);
+            return response()->json(['message' => 'Configurações atualizadas com sucesso']);
         });
     });
 
     // Reports routes
     Route::prefix('reports')->group(function () {
-        Route::get('/travel-requests', function () {
-            return response()->json(['message' => 'Travel requests report']);
+        Route::get('travel-requests', function () {
+            return response()->json(['message' => 'Relatório de pedidos de viagem']);
         });
-        Route::get('/users', function () {
-            return response()->json(['message' => 'Users report']);
+        Route::get('users', function () {
+            return response()->json(['message' => 'Relatório de usuários']);
         });
-        Route::get('/departments', function () {
-            return response()->json(['message' => 'Departments report']);
+        Route::get('departments', function () {
+            return response()->json(['message' => 'Relatório de departamentos']);
         });
     });
 });
